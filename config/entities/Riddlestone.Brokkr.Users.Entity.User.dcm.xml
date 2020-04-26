@@ -1,0 +1,19 @@
+<doctrine-mapping
+        xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity
+            name="Riddlestone\Brokkr\Users\Entity\User"
+            repository-class="Riddlestone\Brokkr\Users\Repository\UserRepository"
+            table="riddlestone_brokkr_users__user"
+            inheritance-type="JOINED">
+        <id name="id" type="guid">
+            <generator strategy="UUID"/>
+        </id>
+        <field name="firstName" column="first_name"/>
+        <field name="lastName" column="last_name"/>
+        <field name="emailAddress" column="email_address" unique="true"/>
+        <field name="passwordSalt" column="password_salt" length="40"/>
+        <field name="passwordHash" column="password_hash" length="40"/>
+    </entity>
+</doctrine-mapping>
