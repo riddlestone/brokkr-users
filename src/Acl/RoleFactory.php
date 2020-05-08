@@ -3,6 +3,7 @@
 namespace Riddlestone\Brokkr\Users\Acl;
 
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Riddlestone\Brokkr\Users\Entity\User;
@@ -11,20 +12,19 @@ use Riddlestone\Brokkr\Users\Repository\UserRepository;
 class RoleFactory implements AbstractFactoryInterface
 {
     /**
-     * @param ContainerInterface $container
      * @param string $requestedName
-     * @return object|null
+     * @return string|null
      */
-    protected function getUserFromRequestedName(ContainerInterface $container, string $requestedName)
+    protected function extractUserId($requestedName)
     {
-        $validStart = User::class . ':';
-        if (substr($requestedName, 0, strlen($validStart)) !== $validStart) {
+        $params = explode(':', $requestedName);
+        if (count($params) !== 2) {
             return null;
         }
-        /** @var UserRepository $userRepo */
-        $userRepo = $container->get(UserRepository::class);
-        $id = substr($requestedName, strlen($validStart));
-        return $userRepo->find($id);
+        if ($params[0] !== User::class) {
+            return null;
+        }
+        return $params[1];
     }
 
     /**
@@ -32,7 +32,7 @@ class RoleFactory implements AbstractFactoryInterface
      */
     public function canCreate(ContainerInterface $container, $requestedName)
     {
-        return (bool)$this->getUserFromRequestedName($container, $requestedName);
+        return $this->extractUserId($requestedName) !== null;
     }
 
     /**
@@ -40,10 +40,21 @@ class RoleFactory implements AbstractFactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $user = $this->getUserFromRequestedName($container, $requestedName);
-        if (! $user) {
+        $id = $this->extractUserId($requestedName);
+
+        if ($id === null) {
+            throw new ServiceNotCreatedException();
+        }
+
+        /** @var UserRepository $userRepo */
+        $userRepo = $container->get(UserRepository::class);
+
+        $user = $userRepo->find($id);
+
+        if (!$user) {
             throw new ServiceNotFoundException();
         }
+
         return $user;
     }
 }

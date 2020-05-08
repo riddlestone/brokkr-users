@@ -4,6 +4,7 @@ namespace Riddlestone\Brokkr\Users\Test\Unit\Acl;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
+use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use PHPUnit\Framework\TestCase;
 use Riddlestone\Brokkr\Users\Acl\RoleFactory;
@@ -51,7 +52,8 @@ class RoleFactoryTest extends TestCase
     {
         $factory = new RoleFactory();
         $this->assertFalse($factory->canCreate($this->container, 'stdClass'));
-        $this->assertFalse($factory->canCreate($this->container, User::class . ':missing-user'));
+        $this->assertTrue($factory->canCreate($this->container, User::class . ':test-user-id'));
+        $this->assertTrue($factory->canCreate($this->container, User::class . ':missing-user'));
     }
 
     /**
@@ -82,7 +84,7 @@ class RoleFactoryTest extends TestCase
      */
     public function testInvalidInvoke()
     {
-        $this->expectException(ServiceNotFoundException::class);
+        $this->expectException(ServiceNotCreatedException::class);
 
         $factory = new RoleFactory();
         $factory($this->container, stdClass::class);
