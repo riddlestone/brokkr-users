@@ -5,9 +5,11 @@ return [
         'Laminas\Session',
         'Laminas\Form',
         'Laminas\Router',
+        'Laminas\Mvc\Plugin\FlashMessenger',
         'DoctrineModule',
         'DoctrineORMModule',
         'Riddlestone\Brokkr\Acl',
+        'Riddlestone\Brokkr\Mail',
         'Riddlestone\Brokkr\Users',
     ],
     'module_listener_options' => [

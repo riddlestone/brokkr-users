@@ -43,6 +43,39 @@ This clears the current authentication, and redirects to the home page.
 | Action      | `logout`                                                |
 | View Script | N/A                                                     |
 
+### Request Password Reset Link Action
+
+This provides a password reset request form, and sends an reset link to the given email address, if it is for a valid
+user. A successful submission results in a redirect to the home page.
+
+Note that the success and redirect occur regardless of whether the user is valid, and therefore a reset link is sent, to
+prevent this feature from being used to identify site users.
+
+| Property    | Value                                                   |
+| ----------- | ------------------------------------------------------- |
+| Controller  | `Riddlestone\Brokkr\Users\Controller\AccountController` |
+| Action      | `request-password-reset-link`                           |
+| View Script | `brokkr/users/account/request_password_reset_link`      |
+
+| View Variable | Description            | Type                                                     |
+| ------------- | ---------------------- | -------------------------------------------------------- |
+| `$form`       | The reset request form | `Riddlestone\Brokkr\Users\Form\RequestPasswordResetForm` |
+
+### Reset Password Action
+
+This provides a password reset form, and resets the password for the user. A successful submission results in a redirect
+to the home page, with the user logged in.
+
+| Property    | Value                                                   |
+| ----------- | ------------------------------------------------------- |
+| Controller  | `Riddlestone\Brokkr\Users\Controller\AccountController` |
+| Action      | `reset-password`                                        |
+| View Script | `brokkr/users/account/reset_password`                   |
+
+| View Variable | Description             | Type                                              |
+| ------------- | ----------------------- | ------------------------------------------------- |
+| `$form`       | The password reset form | `Riddlestone\Brokkr\Users\Form\PasswordResetForm` |
+
 ## Users Controller
 
 This provides controls for administrators to manage users.

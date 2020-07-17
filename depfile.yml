@@ -1,0 +1,45 @@
+paths:
+  - ./src
+exclude_files: []
+layers:
+  - name: Controllers
+    collectors:
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Controller
+  - name: Entities
+    collectors:
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Entity\\.*
+  - name: Forms
+    collectors:
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Form\\.*
+  - name: Repositories
+    collectors:
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Repository\\.*
+  - name: Services
+    collectors:
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Acl\\.*
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Authentication\\.*
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Service\\.*
+ruleset:
+  Controllers:
+    - Entities
+    - Forms
+    - Repositories
+    - Services
+  Repositories:
+    - Entities
+  Services:
+    - Entities
+    - Repositories
+  Tests:
+    - Controllers
+    - Entities
+    - Forms
+    - Repositories
+    - Services

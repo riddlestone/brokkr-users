@@ -5,24 +5,17 @@ namespace Riddlestone\Brokkr\Users;
 use Doctrine\ORM\Mapping\Driver\XmlDriver;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-use Riddlestone\Brokkr\Users\Acl\RoleFactory;
-use Riddlestone\Brokkr\Users\Controller\AccountController;
-use Riddlestone\Brokkr\Users\Controller\AccountControllerFactory;
-use Riddlestone\Brokkr\Users\Controller\UsersController;
-use Riddlestone\Brokkr\Users\Controller\UsersControllerFactory;
-use Riddlestone\Brokkr\Users\Repository\UserRepository;
-use Riddlestone\Brokkr\Users\Repository\UserRepositoryFactory;
 
 return [
     'acl_role_manager' => [
         'abstract_factories' => [
-            RoleFactory::class,
+            Acl\RoleFactory::class,
         ],
     ],
     'controllers' => [
         'factories' => [
-            AccountController::class => AccountControllerFactory::class,
-            UsersController::class => UsersControllerFactory::class,
+            Controller\AccountController::class => Controller\AccountControllerFactory::class,
+            Controller\UsersController::class => Controller\UsersControllerFactory::class,
         ],
     ],
     'doctrine' => [
@@ -42,10 +35,13 @@ return [
         ],
     ],
     'global_salt' => 'PLEASE CHANGE ME',
+    'router' => require __DIR__ . '/module.routes.php',
     'service_manager' => [
         'factories' => [
             AuthenticationService::class => InvokableFactory::class,
-            UserRepository::class => UserRepositoryFactory::class,
+            Service\PasswordResetService::class => Service\PasswordResetServiceFactory::class,
+            Repository\PasswordResetRepository::class => Repository\RepositoryFactory::class,
+            Repository\UserRepository::class => Repository\UserRepositoryFactory::class,
         ],
     ],
 ];
