@@ -2,6 +2,7 @@
 
 namespace Riddlestone\Brokkr\Users\Test\Integration\Controller;
 
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -185,24 +186,49 @@ class AccountControllerTest extends AbstractApplicationTestCase
         $this->assertInstanceOf(PasswordReset::class, $reset);
     }
 
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function testGetResetPasswordAction()
     {
+        /** @var EntityManager $em */
+        $em = $this->app->getServiceManager()->get(EntityManager::class);
+        $reset = new PasswordReset();
+        $reset->setUser($this->user);
+        $reset->setValidUntil(new DateTimeImmutable('+1 day'));
+        $em->persist($reset);
+        $em->flush();
+
         /** @var ViewModel $viewModel */
-        $viewModel = $this->dispatch(AccountController::class, 'resetPassword');
+        $viewModel = $this->dispatch(AccountController::class, 'resetPassword', ['id' => $reset->getId()]);
         $this->assertInstanceOf(ViewModel::class, $viewModel);
         $this->assertInstanceOf(PasswordResetForm::class, $viewModel->getVariable('form'));
         $this->assertEquals('brokkr/users/account/password_reset', $viewModel->getTemplate());
     }
 
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function testPostInvalidResetPasswordAction()
     {
+        /** @var EntityManager $em */
+        $em = $this->app->getServiceManager()->get(EntityManager::class);
+        $reset = new PasswordReset();
+        $reset->setUser($this->user);
+        $reset->setValidUntil(new DateTimeImmutable('+1 day'));
+        $em->persist($reset);
+        $em->flush();
+
         $this->app->getMvcEvent()->getRequest()->setMethod('POST');
         /** @var ViewModel $viewModel */
-        $viewModel = $this->dispatch(AccountController::class, 'resetPassword');
+        $viewModel = $this->dispatch(AccountController::class, 'resetPassword', ['id' => $reset->getId()]);
         $this->assertInstanceOf(ViewModel::class, $viewModel);
         $this->assertInstanceOf(PasswordResetForm::class, $viewModel->getVariable('form'));
         /** @var PasswordResetForm $form */
         $form = $viewModel->getVariable('form');
+        $this->assertEquals(['isEmpty'], array_keys($form->getMessages('email_address')));
         $this->assertEquals(['isEmpty'], array_keys($form->getMessages('password')));
         $this->assertEquals(['isEmpty'], array_keys($form->getMessages('repeat_password')));
         $this->assertEquals('brokkr/users/account/password_reset', $viewModel->getTemplate());

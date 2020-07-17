@@ -95,6 +95,20 @@ class PasswordResetService
     }
 
     /**
+     * @param string $id
+     * @return PasswordReset|null
+     * @throws Exception
+     */
+    public function getReset(string $id): PasswordReset
+    {
+        $reset = $this->passwordResetsRepo->find($id);
+        if (!$reset || !$this->validateReset($reset)) {
+            throw new Exception('Password reset request not found or has expired');
+        }
+        return $reset;
+    }
+
+    /**
      * Validates that the reset request exists, and is still valid
      *
      * @param PasswordReset $reset
@@ -102,7 +116,7 @@ class PasswordResetService
      */
     public function validateReset(PasswordReset $reset): bool
     {
-        return $reset->getValidUntil() <= new DateTimeImmutable();
+        return $reset->getValidUntil() >= new DateTimeImmutable();
     }
 
     /**

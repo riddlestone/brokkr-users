@@ -62,11 +62,11 @@ abstract class AbstractApplicationTestCase extends TestCase
         $this->getAuthenticationService()->authenticate($this->createAuthAdapter($user));
     }
 
-    protected function dispatch(string $controllerName, string $actionName)
+    protected function dispatch(string $controllerName, string $actionName, array $params = [])
     {
         $this->app->getServiceManager()->get('Router')->setRequestUri(new Http('http://example.com'));
         $this->app->getMvcEvent()->setRouteMatch(
-            new RouteMatch(['controller' => $controllerName, 'action' => $actionName])
+            new RouteMatch(array_merge(['controller' => $controllerName, 'action' => $actionName], $params))
         );
         $controller = $this->app->getServiceManager()
             ->get('ControllerManager')

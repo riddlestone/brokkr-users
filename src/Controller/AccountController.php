@@ -138,10 +138,20 @@ class AccountController extends AbstractActionController
         return $viewModel;
     }
 
+    /**
+     * @return Response|ViewModel
+     * @throws Exception
+     */
     public function resetPasswordAction()
     {
+        $reset = $this->passwordResetService->getReset($this->params('id'));
         /** @var PasswordResetForm $form */
-        $form = $this->formElementManager->get(PasswordResetForm::class);
+        $form = $this->formElementManager->get(
+            PasswordResetForm::class,
+            [
+                'email_address' => $reset->getUser()->getEmailAddress(),
+            ]
+        );
         $viewModel = new ViewModel(['form' => $form]);
         $viewModel->setTemplate('brokkr/users/account/password_reset');
         if ($this->getRequest()->isPost()) {
