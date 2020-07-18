@@ -12,6 +12,7 @@ use Laminas\Mail\Message;
 use Laminas\Mail\Transport\TransportInterface;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\View\Model\ViewModel;
+use Ramsey\Uuid\Uuid;
 use Riddlestone\Brokkr\Users\Controller\AccountController;
 use Riddlestone\Brokkr\Users\Entity\PasswordReset;
 use Riddlestone\Brokkr\Users\Entity\User;
@@ -211,7 +212,7 @@ class AccountControllerTest extends AbstractApplicationTestCase
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function testPostInvalidResetPasswordAction()
+    public function testPostEmptyResetPasswordAction()
     {
         /** @var EntityManager $em */
         $em = $this->app->getServiceManager()->get(EntityManager::class);
@@ -234,8 +235,45 @@ class AccountControllerTest extends AbstractApplicationTestCase
         $this->assertEquals('brokkr/users/account/password_reset', $viewModel->getTemplate());
     }
 
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function testPostInvalidResetPasswordAction()
+    {
+        $this->expectExceptionMessage('Password reset request not found or has expired');
+        $this->app->getMvcEvent()->getRequest()->setMethod('POST');
+        $this->dispatch(AccountController::class, 'resetPassword', ['id' => Uuid::uuid1()]);
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function testPostValidResetPasswordAction()
     {
-        $this->markTestIncomplete('Not yet implemented');
+        /** @var EntityManager $em */
+        $em = $this->app->getServiceManager()->get(EntityManager::class);
+        $reset = new PasswordReset();
+        $reset->setUser($this->user);
+        $reset->setValidUntil(new DateTimeImmutable('+1 day'));
+        $em->persist($reset);
+        $em->flush();
+
+        $this->app->getMvcEvent()->getRequest()->setMethod('POST');
+        $post = $this->app->getMvcEvent()->getRequest()->getPost();
+        $post->set('email_address', 'test@example.com');
+        $post->set('password', 'newP@ssw0rd');
+        $post->set('repeat_password', 'newP@ssw0rd');
+
+        /** @var Response $redirect */
+        $redirect = $this->dispatch(AccountController::class, 'resetPassword', ['id' => $reset->getId()]);
+        $this->assertInstanceOf(Response::class, $redirect);
+        $this->assertEquals('/account/login', $redirect->getHeaders()->get('Location')->getFieldValue());
+
+        $em->refresh($this->user);
+        $this->assertTrue(
+            $this->user->checkPassword('newP@ssw0rd', $this->app->getServiceManager()->get('Config')['global_salt'])
+        );
     }
 }
