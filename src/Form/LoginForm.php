@@ -38,8 +38,8 @@ class LoginForm extends Form implements InputFilterProviderInterface
             [
                 'name' => 'submit',
                 'type' => Submit::class,
-                'options' => [
-                    'label' => 'Login',
+                'attributes' => [
+                    'value' => 'Login',
                 ],
             ]
         );

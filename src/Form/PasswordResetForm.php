@@ -62,8 +62,8 @@ class PasswordResetForm extends Form implements InputFilterProviderInterface
             [
                 'name' => 'submit',
                 'type' => Submit::class,
-                'options' => [
-                    'label' => 'Reset Password',
+                'attributes' => [
+                    'value' => 'Reset Password',
                 ],
             ]
         );

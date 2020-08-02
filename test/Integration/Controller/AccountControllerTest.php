@@ -250,6 +250,32 @@ class AccountControllerTest extends AbstractApplicationTestCase
      * @throws ORMException
      * @throws OptimisticLockException
      */
+    public function testPostExpiredResetPasswordAction()
+    {
+        /** @var EntityManager $em */
+        $em = $this->app->getServiceManager()->get(EntityManager::class);
+        $reset = new PasswordReset();
+        $reset->setUser($this->user);
+        $reset->setValidUntil(new DateTimeImmutable('-1 day'));
+        $em->persist($reset);
+        $em->flush();
+
+        $this->app->getMvcEvent()->getRequest()->setMethod('POST');
+        $post = $this->app->getMvcEvent()->getRequest()->getPost();
+        $post->set('email_address', 'test@example.com');
+        $post->set('password', 'newP@ssw0rd');
+        $post->set('repeat_password', 'newP@ssw0rd');
+
+        $this->expectExceptionMessage('Password reset request not found or has expired');
+
+        /** @var Response $redirect */
+        $this->dispatch(AccountController::class, 'resetPassword', ['id' => $reset->getId()]);
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function testPostValidResetPasswordAction()
     {
         /** @var EntityManager $em */
