@@ -146,7 +146,14 @@ class AccountController extends AbstractActionController
      */
     public function resetPasswordAction()
     {
-        $reset = $this->passwordResetService->getReset($this->params('id'));
+        try {
+            $reset = $this->passwordResetService->getReset($this->params('id'));
+        } catch (Exception $e) {
+            if ($this->plugins->has('flashMessenger')) {
+                $this->flashMessenger()->addErrorMessage($e->getMessage());
+            }
+            return $this->redirect()->toRoute('home');
+        }
         /** @var PasswordResetForm $form */
         $form = $this->formElementManager->get(
             PasswordResetForm::class,
@@ -165,7 +172,9 @@ class AccountController extends AbstractActionController
             try {
                 $this->passwordResetService->processReset($this->params('id'), $data['password']);
             } catch (Exception $e) {
-                $form->setMessages(['error' => $e->getMessage()]);
+                if ($this->plugins->has('flashMessenger')) {
+                    $this->flashMessenger()->addErrorMessage($e->getMessage());
+                }
                 return $viewModel;
             }
             if ($this->plugins->has('flashMessenger')) {

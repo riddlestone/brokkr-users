@@ -83,6 +83,7 @@ class PasswordResetService
             'brokkr/users/mail/password-reset-request-html',
             'brokkr/users/mail/password-reset-request-text',
             [
+                'user' => $user,
                 'resetLink' => $this->router->assemble(
                     ['id' => $passwordReset->getId()],
                     ['name' => 'brokkr-users/account/reset-password', 'force_canonical' => true]
@@ -142,7 +143,14 @@ class PasswordResetService
 
         $mail = $this->messageFactory->create(
             'brokkr/users/mail/password-reset-receipt-html',
-            'brokkr/users/mail/password-reset-receipt-text'
+            'brokkr/users/mail/password-reset-receipt-text',
+            [
+                'user' => $reset->getUser(),
+                'loginLink' => $this->router->assemble(
+                    [],
+                    ['name' => 'brokkr-users/account/login', 'force_canonical' => true]
+                ),
+            ]
         );
         $this->mailTransport->send($mail);
     }
