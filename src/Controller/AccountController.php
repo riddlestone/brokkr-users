@@ -4,6 +4,7 @@ namespace Riddlestone\Brokkr\Users\Controller;
 
 use Exception;
 use Laminas\Authentication\AuthenticationService;
+use Laminas\Form\ElementInterface;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
@@ -106,11 +107,7 @@ class AccountController extends AbstractActionController
                 }
                 return $this->redirect()->toRoute('home');
             }
-            if ($this->plugins->has('flashMessenger')) {
-                $this->flashMessenger()->addErrorMessage('Email address or password incorrect');
-            } else {
-                $form->get('email_address')->setMessages(['Email address or password incorrect']);
-            }
+            $this->addFormErrorMessage('Email address or password incorrect', $form->get('email_address'));
         }
         return $viewModel;
     }
@@ -177,5 +174,21 @@ class AccountController extends AbstractActionController
             return $this->redirect()->toRoute('brokkr-users/account/login');
         }
         return $viewModel;
+    }
+
+    /**
+     * Sets an error message through flashMessenger if available, or on the form element if not
+     *
+     * @param string $message
+     * @param ElementInterface $element
+     * @return void
+     */
+    protected function addFormErrorMessage(string $message, ElementInterface $element): void
+    {
+        if ($this->plugins->has('flashMessenger')) {
+            $this->flashMessenger()->addErrorMessage($message);
+            return;
+        }
+        $element->setMessages(array_merge($element->getMessages(), ['Email address or password incorrect']));
     }
 }
