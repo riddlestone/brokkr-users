@@ -106,7 +106,11 @@ class AccountController extends AbstractActionController
                 }
                 return $this->redirect()->toRoute('home');
             }
-            $form->get('email_address')->setMessages(['Email address or password incorrect']);
+            if ($this->plugins->has('flashMessenger')) {
+                $this->flashMessenger()->addErrorMessage('Email address or password incorrect');
+            } else {
+                $form->get('email_address')->setMessages(['Email address or password incorrect']);
+            }
         }
         return $viewModel;
     }
