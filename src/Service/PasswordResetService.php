@@ -63,6 +63,46 @@ class PasswordResetService
     }
 
     /**
+     * @return EntityManager
+     */
+    public function getEntityManager(): EntityManager
+    {
+        return $this->entityManager;
+    }
+
+    /**
+     * @return PasswordResetRepository
+     */
+    public function getPasswordResetsRepo(): PasswordResetRepository
+    {
+        return $this->passwordResetsRepo;
+    }
+
+    /**
+     * @return MessageFactory
+     */
+    public function getMessageFactory(): MessageFactory
+    {
+        return $this->messageFactory;
+    }
+
+    /**
+     * @return TransportInterface
+     */
+    public function getMailTransport(): TransportInterface
+    {
+        return $this->mailTransport;
+    }
+
+    /**
+     * @return RouteInterface
+     */
+    public function getRouter(): RouteInterface
+    {
+        return $this->router;
+    }
+
+    /**
      * @param User $user
      * @return void
      * @throws Exception
@@ -73,18 +113,18 @@ class PasswordResetService
         $passwordReset->setUser($user);
         $passwordReset->setValidUntil(new DateTimeImmutable('+2 hours'));
         try {
-            $this->entityManager->persist($passwordReset);
-            $this->entityManager->flush();
+            $this->getEntityManager()->persist($passwordReset);
+            $this->getEntityManager()->flush();
         } catch (ORMException | OptimisticLockException $e) {
             throw new Exception('Could not save Password Reset information', null, $e);
         }
 
-        $mail = $this->messageFactory->create(
+        $mail = $this->getMessageFactory()->create(
             'brokkr/users/mail/password-reset-request-html',
             'brokkr/users/mail/password-reset-request-text',
             [
                 'user' => $user,
-                'resetLink' => $this->router->assemble(
+                'resetLink' => $this->getRouter()->assemble(
                     ['id' => $passwordReset->getId()],
                     ['name' => 'brokkr-users/account/reset-password', 'force_canonical' => true]
                 ),
@@ -92,7 +132,7 @@ class PasswordResetService
             ]
         );
         $mail->setTo($user->getEmailAddress(), $user->getName());
-        $this->mailTransport->send($mail);
+        $this->getMailTransport()->send($mail);
     }
 
     /**
@@ -102,7 +142,7 @@ class PasswordResetService
      */
     public function getReset(string $id): PasswordReset
     {
-        $reset = $this->passwordResetsRepo->find($id);
+        $reset = $this->getPasswordResetsRepo()->find($id);
         if (!$reset || !$this->validateReset($reset)) {
             throw new Exception('Password reset request not found or has expired');
         }
@@ -129,29 +169,29 @@ class PasswordResetService
      */
     public function processReset(string $id, string $password): void
     {
-        $reset = $this->passwordResetsRepo->find($id);
+        $reset = $this->getPasswordResetsRepo()->find($id);
         if (!$reset || !$this->validateReset($reset)) {
             throw new Exception('Password reset request not found or has expired');
         }
         $reset->getUser()->setPassword($password, $this->globalSalt);
         try {
-            $this->entityManager->remove($reset);
-            $this->entityManager->flush();
+            $this->getEntityManager()->remove($reset);
+            $this->getEntityManager()->flush();
         } catch (ORMException | OptimisticLockException $e) {
             throw new Exception('Could not process password reset, please try again later', null, $e);
         }
 
-        $mail = $this->messageFactory->create(
+        $mail = $this->getMessageFactory()->create(
             'brokkr/users/mail/password-reset-receipt-html',
             'brokkr/users/mail/password-reset-receipt-text',
             [
                 'user' => $reset->getUser(),
-                'loginLink' => $this->router->assemble(
+                'loginLink' => $this->getRouter()->assemble(
                     [],
                     ['name' => 'brokkr-users/account/login', 'force_canonical' => true]
                 ),
             ]
         );
-        $this->mailTransport->send($mail);
+        $this->getMailTransport()->send($mail);
     }
 }
