@@ -241,9 +241,12 @@ class AccountControllerTest extends AbstractApplicationTestCase
      */
     public function testPostInvalidResetPasswordAction()
     {
-        $this->expectExceptionMessage('Password reset request not found or has expired');
         $this->app->getMvcEvent()->getRequest()->setMethod('POST');
         $this->dispatch(AccountController::class, 'resetPassword', ['id' => Uuid::uuid1()]);
+        $this->assertEquals(
+            ['Password reset request not found or has expired'],
+            $this->getFlashMessages(FlashMessenger::NAMESPACE_ERROR)
+        );
     }
 
     /**
@@ -266,10 +269,12 @@ class AccountControllerTest extends AbstractApplicationTestCase
         $post->set('password', 'newP@ssw0rd');
         $post->set('repeat_password', 'newP@ssw0rd');
 
-        $this->expectExceptionMessage('Password reset request not found or has expired');
-
         /** @var Response $redirect */
         $this->dispatch(AccountController::class, 'resetPassword', ['id' => $reset->getId()]);
+        $this->assertEquals(
+            ['Password reset request not found or has expired'],
+            $this->getFlashMessages(FlashMessenger::NAMESPACE_ERROR)
+        );
     }
 
     /**
