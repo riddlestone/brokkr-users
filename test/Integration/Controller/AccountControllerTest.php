@@ -235,10 +235,6 @@ class AccountControllerTest extends AbstractApplicationTestCase
         $this->assertEquals('brokkr/users/account/password_reset', $viewModel->getTemplate());
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function testPostInvalidResetPasswordAction()
     {
         $this->app->getMvcEvent()->getRequest()->setMethod('POST');
