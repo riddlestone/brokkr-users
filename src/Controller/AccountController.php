@@ -182,7 +182,7 @@ class AccountController extends AbstractActionController
             if ($this->plugins->has('flashMessenger')) {
                 $this->flashMessenger()->addSuccessMessage('Password reset, please login');
             }
-            return $this->redirect()->toRoute('brokkr-users/account/login');
+            return $this->redirect()->toRoute('brokkr-users:login');
         }
         return $viewModel;
     }

@@ -126,7 +126,7 @@ class PasswordResetService
                 'user' => $user,
                 'resetLink' => $this->getRouter()->assemble(
                     ['id' => $passwordReset->getId()],
-                    ['name' => 'brokkr-users/account/reset-password', 'force_canonical' => true]
+                    ['name' => 'brokkr-users:reset-password', 'force_canonical' => true]
                 ),
                 'timeToLive' => '2 hours',
             ]
@@ -188,7 +188,7 @@ class PasswordResetService
                 'user' => $reset->getUser(),
                 'loginLink' => $this->getRouter()->assemble(
                     [],
-                    ['name' => 'brokkr-users/account/login', 'force_canonical' => true]
+                    ['name' => 'brokkr-users:login', 'force_canonical' => true]
                 ),
             ]
         );
