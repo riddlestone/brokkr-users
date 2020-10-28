@@ -7,9 +7,30 @@ use Laminas\Authentication\AuthenticationService;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
+    'acl_resource_manager' => [
+        'abstract_factories' => [
+            Acl\ResourceFactory::class,
+        ],
+    ],
     'acl_role_manager' => [
         'abstract_factories' => [
             Acl\RoleFactory::class,
+        ],
+    ],
+    'acl_role_relationship_manager' => [
+        'factories' => [
+            Acl\RoleRelationshipFactory::class => InvokableFactory::class,
+        ],
+        'providers' => [
+            Acl\RoleRelationshipFactory::class,
+        ],
+    ],
+    'acl_rule_manager' => [
+        'factories' => [
+            Acl\RuleProvider::class => InvokableFactory::class,
+        ],
+        'providers' => [
+            Acl\RuleProvider::class,
         ],
     ],
     'controllers' => [
