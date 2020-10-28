@@ -56,6 +56,42 @@ return [
         ],
     ],
     'global_salt' => 'PLEASE CHANGE ME',
+    'navigation' => [
+        'admin' => [
+            'admin' => [
+                'pages' => [
+                    'users' => [
+                        'label' => 'User Management',
+                        'route' => 'admin/users',
+                        'resource' => Controller\UsersController::class . '::index',
+                    ],
+                ],
+            ],
+        ],
+        'personal' => [
+            'admin' => [
+                'pages' => [
+                    'users' => [
+                        'label' => 'User Management',
+                        'route' => 'admin/users',
+                        'resource' => Controller\UsersController::class . '::index',
+                    ],
+                ],
+            ],
+            'login' => [
+                'label' => 'Login',
+                'route' => 'brokkr-users:login',
+                'resource' => Controller\AccountController::class . '::login',
+                'class' => 'hollow button',
+            ],
+            'logout' => [
+                'label' => 'Logout',
+                'route' => 'brokkr-users:logout',
+                'resource' => Controller\AccountController::class . '::logout',
+                'class' => 'hollow button',
+            ],
+        ],
+    ],
     'router' => require __DIR__ . '/module.routes.php',
     'service_manager' => [
         'factories' => [
