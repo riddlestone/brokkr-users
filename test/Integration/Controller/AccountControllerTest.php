@@ -296,7 +296,7 @@ class AccountControllerTest extends AbstractApplicationTestCase
         /** @var Response $redirect */
         $redirect = $this->dispatch(AccountController::class, 'resetPassword', ['id' => $reset->getId()]);
         $this->assertInstanceOf(Response::class, $redirect);
-        $this->assertEquals('/account/login', $redirect->getHeaders()->get('Location')->getFieldValue());
+        $this->assertEquals('/login', $redirect->getHeaders()->get('Location')->getFieldValue());
 
         $em->refresh($this->user);
         $this->assertTrue(

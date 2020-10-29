@@ -7,6 +7,7 @@ use Interop\Container\Exception\ContainerException;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\ServiceManager\AbstractPluginManager;
 use PHPUnit\Framework\TestCase;
+use Riddlestone\Brokkr\Acl\Acl;
 use Riddlestone\Brokkr\Users\Controller\AccountController;
 use Riddlestone\Brokkr\Users\Controller\AccountControllerFactory;
 use Riddlestone\Brokkr\Users\Repository\UserRepository;
@@ -23,6 +24,7 @@ class AccountControllerFactoryTest extends TestCase
         $container
             ->method('get')
             ->willReturnMap([
+                [Acl::class, $this->createMock(Acl::class)],
                 [UserRepository::class, $this->createMock(UserRepository::class)],
                 [AuthenticationService::class, $this->createMock(AuthenticationService::class)],
                 ['FormElementManager', $this->createMock(AbstractPluginManager::class)],

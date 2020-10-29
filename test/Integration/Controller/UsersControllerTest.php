@@ -6,6 +6,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Laminas\View\Model\ViewModel;
+use Riddlestone\Brokkr\Acl\Acl;
+use Riddlestone\Brokkr\Acl\GenericRule;
 use Riddlestone\Brokkr\Users\Controller\UsersController;
 use Riddlestone\Brokkr\Users\Entity\User;
 use Riddlestone\Brokkr\Users\Test\Integration\AbstractApplicationTestCase;
@@ -29,6 +31,10 @@ class UsersControllerTest extends AbstractApplicationTestCase
             $em->persist($user);
         }
         $em->flush();
+
+        /** @var Acl $acl */
+        $acl = $this->app->getServiceManager()->get(Acl::class);
+        $acl->addRule(new GenericRule(\Laminas\Permissions\Acl\Acl::TYPE_ALLOW, null, null));
 
         /** @var ViewModel $viewModel */
         $viewModel = $this->dispatch(UsersController::class, 'index');

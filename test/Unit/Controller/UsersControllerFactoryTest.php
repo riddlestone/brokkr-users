@@ -4,7 +4,9 @@ namespace Riddlestone\Brokkr\Users\Test\Unit\Controller;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
+use Laminas\Authentication\AuthenticationService;
 use PHPUnit\Framework\TestCase;
+use Riddlestone\Brokkr\Acl\Acl;
 use Riddlestone\Brokkr\Users\Controller\UsersController;
 use Riddlestone\Brokkr\Users\Controller\UsersControllerFactory;
 use Riddlestone\Brokkr\Users\Repository\UserRepository;
@@ -20,6 +22,8 @@ class UsersControllerFactoryTest extends TestCase
         $container
             ->method('get')
             ->willReturnMap([
+                [Acl::class, $this->createMock(Acl::class)],
+                [AuthenticationService::class, $this->createMock(AuthenticationService::class)],
                 [UserRepository::class, $this->createMock(UserRepository::class)],
             ]);
 

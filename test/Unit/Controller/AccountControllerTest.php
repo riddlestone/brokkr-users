@@ -14,6 +14,7 @@ use Laminas\Stdlib\Parameters;
 use Laminas\View\Model\ViewModel;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Riddlestone\Brokkr\Acl\Acl;
 use Riddlestone\Brokkr\Users\Controller\AccountController;
 use Riddlestone\Brokkr\Users\Entity\User;
 use Riddlestone\Brokkr\Users\Form\LoginForm;
@@ -64,12 +65,23 @@ class AccountControllerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->controller = new AccountController(
-            $this->userRepository = $this->createMock(UserRepository::class),
-            $this->authService = $this->createMock(AuthenticationService::class),
-            $this->formElementManager = $this->createMock(AbstractPluginManager::class),
+        $this->controller = new AccountController();
+        $this->controller->setAcl(
+            $this->acl = $this->createMock(Acl::class)
+        );
+        $this->controller->setUserRepository(
+            $this->userRepository = $this->createMock(UserRepository::class)
+        );
+        $this->controller->setAuthenticationService(
+            $this->authService = $this->createMock(AuthenticationService::class)
+        );
+        $this->controller->setFormElementManager(
+            $this->formElementManager = $this->createMock(AbstractPluginManager::class)
+        );
+        $this->controller->setPasswordResetService(
             $this->passwordResetService = $this->createMock(PasswordResetService::class)
         );
+
         $this->controller->setPluginManager(
             $this->pluginManager = $this->createMock(PluginManager::class)
         );
