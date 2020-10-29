@@ -63,7 +63,7 @@ return [
                     'users' => [
                         'label' => 'User Management',
                         'route' => 'admin/users',
-                        'resource' => Controller\UsersController::class . '::index',
+                        'resource' => Controller\UsersController::class . '::indexAction',
                     ],
                 ],
             ],
@@ -74,20 +74,20 @@ return [
                     'users' => [
                         'label' => 'User Management',
                         'route' => 'admin/users',
-                        'resource' => Controller\UsersController::class . '::index',
+                        'resource' => Controller\UsersController::class . '::indexAction',
                     ],
                 ],
             ],
             'login' => [
                 'label' => 'Login',
                 'route' => 'brokkr-users:login',
-                'resource' => Controller\AccountController::class . '::login',
+                'resource' => Controller\AccountController::class . '::loginAction',
                 'class' => 'hollow button',
             ],
             'logout' => [
                 'label' => 'Logout',
                 'route' => 'brokkr-users:logout',
-                'resource' => Controller\AccountController::class . '::logout',
+                'resource' => Controller\AccountController::class . '::logoutAction',
                 'class' => 'hollow button',
             ],
         ],

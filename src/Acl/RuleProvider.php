@@ -34,21 +34,21 @@ class RuleProvider implements RuleProviderInterface
 
         if (
             in_array(null, $roleIds)
-            && in_array(AccountController::class . '::login', $resourceIds)
+            && in_array(AccountController::class . '::loginAction', $resourceIds)
         ) {
-            $rules[] = new GenericRule(Acl::TYPE_ALLOW, null, AccountController::class . '::login');
+            $rules[] = new GenericRule(Acl::TYPE_ALLOW, null, AccountController::class . '::loginAction');
         }
         if (
             in_array(User::class, $roleIds)
-            && in_array(AccountController::class . '::login', $resourceIds)
+            && in_array(AccountController::class . '::loginAction', $resourceIds)
         ) {
-            $rules[] = new GenericRule(Acl::TYPE_DENY, User::class, AccountController::class . '::login');
+            $rules[] = new GenericRule(Acl::TYPE_DENY, User::class, AccountController::class . '::loginAction');
         }
         if (
             in_array(User::class, $roleIds)
-            && in_array(AccountController::class . '::logout', $resourceIds)
+            && in_array(AccountController::class . '::logoutAction', $resourceIds)
         ) {
-            $rules[] = new GenericRule(Acl::TYPE_ALLOW, User::class, AccountController::class . '::logout');
+            $rules[] = new GenericRule(Acl::TYPE_ALLOW, User::class, AccountController::class . '::logoutAction');
         }
 
         return $rules;

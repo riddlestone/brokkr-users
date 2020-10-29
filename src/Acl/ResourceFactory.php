@@ -14,8 +14,8 @@ use Riddlestone\Brokkr\Users\Controller\UsersController;
 class ResourceFactory implements AbstractFactoryInterface
 {
     protected $actions = [
-        AccountController::class => ['login', 'logout'],
-        UsersController::class => ['index'],
+        AccountController::class => ['loginAction', 'logoutAction'],
+        UsersController::class => ['indexAction'],
     ];
 
     /**
