@@ -10,7 +10,6 @@ return [
         'DoctrineORMModule',
         'Riddlestone\Brokkr\Acl',
         'Riddlestone\Brokkr\Mail',
-        'Riddlestone\Brokkr\Admin',
         'Riddlestone\Brokkr\Users',
     ],
     'module_listener_options' => [
