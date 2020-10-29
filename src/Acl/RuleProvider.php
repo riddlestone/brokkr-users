@@ -21,12 +21,12 @@ class RuleProvider implements RuleProviderInterface
     public function getRules(array $roles, array $resources)
     {
         $rules = [];
-        $roleIds = array_map(function(?RoleInterface $role) {
+        $roleIds = array_map(function (?RoleInterface $role) {
             return $role
                 ? $role->getRoleId()
                 : null;
         }, $roles);
-        $resourceIds = array_map(function(?ResourceInterface $resource) {
+        $resourceIds = array_map(function (?ResourceInterface $resource) {
             return $resource
                 ? $resource->getResourceId()
                 : null;

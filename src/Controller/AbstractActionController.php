@@ -63,7 +63,7 @@ abstract class AbstractActionController extends MvcAbstractActionController
             if (!$this->acl->isAllowed($role, $resource)) {
                 $e->getRouteMatch()->setParam('action', 'forbidden');
             }
-        } catch (ResourceNotFound|RoleNotFound $exception) {
+        } catch (ResourceNotFound | RoleNotFound $exception) {
             // if role or resource is not found, allow access
         }
 
