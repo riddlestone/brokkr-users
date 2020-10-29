@@ -20,7 +20,7 @@ abstract class AbstractActionController extends MvcAbstractActionController
     /**
      * @var AuthenticationService
      */
-    protected $authenticationService;
+    protected $authService;
 
     /**
      * @param Acl $acl
@@ -31,11 +31,11 @@ abstract class AbstractActionController extends MvcAbstractActionController
     }
 
     /**
-     * @param AuthenticationService $authenticationService
+     * @param AuthenticationService $authService
      */
-    public function setAuthenticationService(AuthenticationService $authenticationService): void
+    public function setAuthenticationService(AuthenticationService $authService): void
     {
-        $this->authenticationService = $authenticationService;
+        $this->authService = $authService;
     }
 
     public function forbiddenAction()
@@ -49,24 +49,24 @@ abstract class AbstractActionController extends MvcAbstractActionController
     /**
      * Execute the request
      *
-     * @param MvcEvent $e
+     * @param MvcEvent $event
      * @return mixed
      */
-    public function onDispatch(MvcEvent $e)
+    public function onDispatch(MvcEvent $event)
     {
-        $resource = static::class . '::' . static::getMethodFromAction($e->getRouteMatch()->getParam('action'));
-        $role = $this->authenticationService->hasIdentity()
-            ? $this->authenticationService->getIdentity()
+        $resource = static::class . '::' . static::getMethodFromAction($event->getRouteMatch()->getParam('action'));
+        $role = $this->authService->hasIdentity()
+            ? $this->authService->getIdentity()
             : null;
 
         try {
             if (!$this->acl->isAllowed($role, $resource)) {
-                $e->getRouteMatch()->setParam('action', 'forbidden');
+                $event->getRouteMatch()->setParam('action', 'forbidden');
             }
         } catch (ResourceNotFound | RoleNotFound $exception) {
             // if role or resource is not found, allow access
         }
 
-        return parent::onDispatch($e);
+        return parent::onDispatch($event);
     }
 }

@@ -69,7 +69,7 @@ class AccountController extends AbstractActionController
     {
         $viewModel = new ViewModel(
             [
-                'user' => $this->authenticationService->getIdentity(),
+                'user' => $this->authService->getIdentity(),
             ]
         );
         $viewModel->setTemplate('brokkr/users/account/index');
@@ -81,8 +81,8 @@ class AccountController extends AbstractActionController
      */
     public function logoutAction()
     {
-        if ($this->authenticationService->hasIdentity()) {
-            $this->authenticationService->clearIdentity();
+        if ($this->authService->hasIdentity()) {
+            $this->authService->clearIdentity();
             if ($this->plugins->has('flashMessenger')) {
                 $this->flashMessenger()->addSuccessMessage('Logout successful');
             }
@@ -105,10 +105,10 @@ class AccountController extends AbstractActionController
                 return $viewModel;
             }
             $data = $form->getData();
-            $this->authenticationService->authenticate(
+            $this->authService->authenticate(
                 new AuthenticationAdapter($this->userRepository, $data['email_address'], $data['password'])
             );
-            if ($this->authenticationService->hasIdentity()) {
+            if ($this->authService->hasIdentity()) {
                 if ($this->plugins->has('flashMessenger')) {
                     $this->flashMessenger()->addSuccessMessage('Login successful');
                 }
