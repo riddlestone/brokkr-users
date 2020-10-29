@@ -3,7 +3,6 @@
 namespace Riddlestone\Brokkr\Users\Controller;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use Riddlestone\Brokkr\Users\Repository\UserRepository;
 
@@ -14,7 +13,10 @@ class UsersController extends AbstractActionController
      */
     protected $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    /**
+     * @param UserRepository $userRepository
+     */
+    public function setUserRepository(UserRepository $userRepository): void
     {
         $this->userRepository = $userRepository;
     }

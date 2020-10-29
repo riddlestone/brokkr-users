@@ -3,10 +3,8 @@
 namespace Riddlestone\Brokkr\Users\Controller;
 
 use Exception;
-use Laminas\Authentication\AuthenticationService;
 use Laminas\Form\ElementInterface;
 use Laminas\Http\Response;
-use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\View\Model\ViewModel;
@@ -26,34 +24,41 @@ use Riddlestone\Brokkr\Users\Service\PasswordResetService;
 class AccountController extends AbstractActionController
 {
     /**
-     * @var UserRepository
+     * @var UserRepository|null
      */
     protected $userRepository;
 
     /**
-     * @var AuthenticationService
-     */
-    protected $authService;
-
-    /**
-     * @var AbstractPluginManager
+     * @var AbstractPluginManager|null
      */
     protected $formElementManager;
 
     /**
-     * @var PasswordResetService
+     * @var PasswordResetService|null
      */
     protected $passwordResetService;
 
-    public function __construct(
-        UserRepository $userRepository,
-        AuthenticationService $authService,
-        AbstractPluginManager $formElementManager,
-        PasswordResetService $passwordResetService
-    ) {
+    /**
+     * @param UserRepository $userRepository
+     */
+    public function setUserRepository(UserRepository $userRepository): void
+    {
         $this->userRepository = $userRepository;
-        $this->authService = $authService;
+    }
+
+    /**
+     * @param AbstractPluginManager $formElementManager
+     */
+    public function setFormElementManager(AbstractPluginManager $formElementManager): void
+    {
         $this->formElementManager = $formElementManager;
+    }
+
+    /**
+     * @param PasswordResetService $passwordResetService
+     */
+    public function setPasswordResetService(PasswordResetService $passwordResetService): void
+    {
         $this->passwordResetService = $passwordResetService;
     }
 
@@ -64,7 +69,7 @@ class AccountController extends AbstractActionController
     {
         $viewModel = new ViewModel(
             [
-                'user' => $this->authService->getIdentity(),
+                'user' => $this->authenticationService->getIdentity(),
             ]
         );
         $viewModel->setTemplate('brokkr/users/account/index');
@@ -76,8 +81,8 @@ class AccountController extends AbstractActionController
      */
     public function logoutAction()
     {
-        if ($this->authService->hasIdentity()) {
-            $this->authService->clearIdentity();
+        if ($this->authenticationService->hasIdentity()) {
+            $this->authenticationService->clearIdentity();
             if ($this->plugins->has('flashMessenger')) {
                 $this->flashMessenger()->addSuccessMessage('Logout successful');
             }
@@ -100,10 +105,10 @@ class AccountController extends AbstractActionController
                 return $viewModel;
             }
             $data = $form->getData();
-            $this->authService->authenticate(
+            $this->authenticationService->authenticate(
                 new AuthenticationAdapter($this->userRepository, $data['email_address'], $data['password'])
             );
-            if ($this->authService->hasIdentity()) {
+            if ($this->authenticationService->hasIdentity()) {
                 if ($this->plugins->has('flashMessenger')) {
                     $this->flashMessenger()->addSuccessMessage('Login successful');
                 }
