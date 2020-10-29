@@ -2,6 +2,10 @@ paths:
   - ./src
 exclude_files: []
 layers:
+  - name: Acl
+    collectors:
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Acl\\.*
   - name: Controllers
     collectors:
       - type: className
@@ -21,12 +25,14 @@ layers:
   - name: Services
     collectors:
       - type: className
-        regex: Riddlestone\\Brokkr\\Users\\Acl\\.*
-      - type: className
         regex: Riddlestone\\Brokkr\\Users\\Authentication\\.*
       - type: className
         regex: Riddlestone\\Brokkr\\Users\\Service\\.*
 ruleset:
+  Acl:
+    - Controllers
+    - Entities
+    - Repositories
   Controllers:
     - Entities
     - Forms
