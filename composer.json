@@ -18,7 +18,7 @@
         "laminas/laminas-mvc": "^3.1",
         "laminas/laminas-servicemanager": "^3.4",
         "doctrine/doctrine-orm-module": "^3.0",
-        "riddlestone/brokkr-acl": "^0.1.2",
+        "riddlestone/brokkr-acl": "^0.2.0",
         "riddlestone/brokkr-mail": "dev-master",
         "ramsey/uuid": "^4.0"
     },
