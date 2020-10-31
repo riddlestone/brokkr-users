@@ -34,12 +34,23 @@ class Module
     {
         $serviceManager = $event->getApplication()->getServiceManager();
 
-        if (
-            !$serviceManager->has('ViewRenderer')
-            || !($renderer = $serviceManager->get('ViewRenderer')) instanceof PhpRenderer
-            || !$renderer->getHelperPluginManager()->has('navigation')
-            || !($navigation = $renderer->getHelperPluginManager()->get('navigation')) instanceof Navigation
-        ) {
+        if (!$serviceManager->has('ViewRenderer')) {
+            return;
+        }
+
+        $renderer = $serviceManager->get('ViewRenderer');
+
+        if (!$renderer instanceof PhpRenderer) {
+            return;
+        }
+
+        if (!$renderer->getHelperPluginManager()->has('navigation')) {
+            return;
+        }
+
+        $navigation = $renderer->getHelperPluginManager()->get('navigation');
+
+        if (!$navigation instanceof Navigation) {
             return;
         }
 
