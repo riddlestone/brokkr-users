@@ -6,6 +6,7 @@ use Laminas\Authentication\AuthenticationService;
 use Laminas\Mvc\MvcEvent;
 use Laminas\View\Helper\Navigation;
 use Laminas\View\Renderer\PhpRenderer;
+use Riddlestone\Brokkr\Acl\Acl;
 
 class Module
 {
@@ -33,18 +34,18 @@ class Module
     {
         $serviceManager = $event->getApplication()->getServiceManager();
 
-        $renderer = $serviceManager->get('ViewRenderer');
-        if (!$renderer instanceof PhpRenderer) {
-            trigger_error('"ViewRenderer" not an instance of ' . PhpRenderer::class, E_USER_NOTICE);
+        if (
+            !$serviceManager->has('ViewRenderer')
+            || !($renderer = $serviceManager->get('ViewRenderer')) instanceof PhpRenderer
+            || !$renderer->getHelperPluginManager()->has('navigation')
+            || !($navigation = $renderer->getHelperPluginManager()->get('navigation')) instanceof Navigation
+        ) {
             return;
         }
 
-        $navigation = $renderer->getHelperPluginManager()->get('navigation');
-        if (!$navigation instanceof Navigation) {
-            trigger_error('"navigation" not an instance of ' . Navigation::class, E_USER_NOTICE);
-            return;
-        }
-
-        $navigation->setRole($serviceManager->get(AuthenticationService::class)->getIdentity());
+        /** @var Navigation $navigation */
+        $navigation
+            ->setAcl($serviceManager->get(Acl::class))
+            ->setRole($serviceManager->get(AuthenticationService::class)->getIdentity());
     }
 }
