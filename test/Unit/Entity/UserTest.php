@@ -2,15 +2,21 @@
 
 namespace Riddlestone\Brokkr\Users\Test\Unit\Entity;
 
+use Exception;
 use PHPUnit\Framework\TestCase;
 use Riddlestone\Brokkr\Users\Entity\User;
 
 class UserTest extends TestCase
 {
+    /**
+     * @throws Exception
+     */
     public function testId()
     {
         $user = new User();
         $this->assertNull($user->getId());
+        $this->expectExceptionMessage('Cannot get role ID of User before they have an ID');
+        $user->getRoleId();
     }
 
     public function namesData()

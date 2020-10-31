@@ -52,6 +52,7 @@ class RoleFactoryTest extends TestCase
     {
         $factory = new RoleFactory();
         $this->assertFalse($factory->canCreate($this->container, 'stdClass'));
+        $this->assertFalse($factory->canCreate($this->container, stdClass::class . ':test-user-id'));
         $this->assertTrue($factory->canCreate($this->container, User::class . ':test-user-id'));
         $this->assertTrue($factory->canCreate($this->container, User::class . ':missing-user'));
     }

@@ -38,7 +38,7 @@ class AuthenticationAdapter implements AdapterInterface
      */
     public function authenticate()
     {
-        $user = $this->userRepository->findByEmailAddressAndPassword($this->emailAddress, $this->password);
+        $user = $this->userRepository->findOneByEmailAddressAndPassword($this->emailAddress, $this->password);
         return new Result(
             $user ? Result::SUCCESS : Result::FAILURE,
             $user

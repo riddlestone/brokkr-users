@@ -5,24 +5,38 @@ namespace Riddlestone\Brokkr\Users;
 use Doctrine\ORM\Mapping\Driver\XmlDriver;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-use Riddlestone\Brokkr\Users\Acl\RoleFactory;
-use Riddlestone\Brokkr\Users\Controller\AccountController;
-use Riddlestone\Brokkr\Users\Controller\AccountControllerFactory;
-use Riddlestone\Brokkr\Users\Controller\UsersController;
-use Riddlestone\Brokkr\Users\Controller\UsersControllerFactory;
-use Riddlestone\Brokkr\Users\Repository\UserRepository;
-use Riddlestone\Brokkr\Users\Repository\UserRepositoryFactory;
 
 return [
+    'acl_resource_manager' => [
+        'abstract_factories' => [
+            Acl\ResourceFactory::class,
+        ],
+    ],
     'acl_role_manager' => [
         'abstract_factories' => [
-            RoleFactory::class,
+            Acl\RoleFactory::class,
+        ],
+    ],
+    'acl_role_relationship_manager' => [
+        'factories' => [
+            Acl\RoleRelationshipFactory::class => InvokableFactory::class,
+        ],
+        'providers' => [
+            Acl\RoleRelationshipFactory::class,
+        ],
+    ],
+    'acl_rule_manager' => [
+        'factories' => [
+            Acl\RuleProvider::class => InvokableFactory::class,
+        ],
+        'providers' => [
+            Acl\RuleProvider::class,
         ],
     ],
     'controllers' => [
         'factories' => [
-            AccountController::class => AccountControllerFactory::class,
-            UsersController::class => UsersControllerFactory::class,
+            Controller\AccountController::class => Controller\AccountControllerFactory::class,
+            Controller\UsersController::class => Controller\UsersControllerFactory::class,
         ],
     ],
     'doctrine' => [
@@ -42,10 +56,49 @@ return [
         ],
     ],
     'global_salt' => 'PLEASE CHANGE ME',
+    'navigation' => [
+        'admin' => [
+            'admin' => [
+                'pages' => [
+                    'users' => [
+                        'label' => 'User Management',
+                        'route' => 'admin/users',
+                        'resource' => Controller\UsersController::class . '::indexAction',
+                    ],
+                ],
+            ],
+        ],
+        'personal' => [
+            'admin' => [
+                'pages' => [
+                    'users' => [
+                        'label' => 'User Management',
+                        'route' => 'admin/users',
+                        'resource' => Controller\UsersController::class . '::indexAction',
+                    ],
+                ],
+            ],
+            'login' => [
+                'label' => 'Login',
+                'route' => 'brokkr-users:login',
+                'resource' => Controller\AccountController::class . '::loginAction',
+                'class' => 'hollow button',
+            ],
+            'logout' => [
+                'label' => 'Logout',
+                'route' => 'brokkr-users:logout',
+                'resource' => Controller\AccountController::class . '::logoutAction',
+                'class' => 'hollow button',
+            ],
+        ],
+    ],
+    'router' => require __DIR__ . '/module.routes.php',
     'service_manager' => [
         'factories' => [
             AuthenticationService::class => InvokableFactory::class,
-            UserRepository::class => UserRepositoryFactory::class,
+            Service\PasswordResetService::class => Service\PasswordResetServiceFactory::class,
+            Repository\PasswordResetRepository::class => Repository\RepositoryFactory::class,
+            Repository\UserRepository::class => Repository\UserRepositoryFactory::class,
         ],
     ],
 ];

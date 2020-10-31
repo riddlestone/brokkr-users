@@ -14,6 +14,11 @@ return [
             ],
         ],
     ],
+    'mail' => [
+        'transport' => [
+            'type' => 'inmemory',
+        ],
+    ],
     'router' => [
         'routes' => [
             'home' => [
@@ -23,6 +28,11 @@ return [
                     'route' => '/',
                 ],
             ],
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
+            __DIR__ . '/../views',
         ],
     ],
 ];

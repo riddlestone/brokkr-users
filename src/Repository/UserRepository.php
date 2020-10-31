@@ -39,10 +39,14 @@ class UserRepository extends EntityRepository
      * @param string $password
      * @return User|null
      */
-    public function findByEmailAddressAndPassword(string $emailAddress, string $password)
+    public function findOneByEmailAddressAndPassword(string $emailAddress, string $password)
     {
-        $user = $this->findOneByEmailAddress($emailAddress);
-        if (!$user || !$user->checkPassword($password, $this->getGlobalSalt())) {
+        $user = $this->findOneBy(['emailAddress' => $emailAddress]);
+        if (
+            !$user
+            || !($user instanceof User)
+            || !$user->checkPassword($password, $this->getGlobalSalt())
+        ) {
             return null;
         }
         return $user;

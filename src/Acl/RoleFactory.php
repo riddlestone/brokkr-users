@@ -3,6 +3,7 @@
 namespace Riddlestone\Brokkr\Users\Acl;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Permissions\Acl\Role\GenericRole;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
@@ -32,7 +33,8 @@ class RoleFactory implements AbstractFactoryInterface
      */
     public function canCreate(ContainerInterface $container, $requestedName)
     {
-        return $this->extractUserId($requestedName) !== null;
+        return $requestedName === User::class
+            || $this->extractUserId($requestedName) !== null;
     }
 
     /**
@@ -40,6 +42,10 @@ class RoleFactory implements AbstractFactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
+        if ($requestedName === User::class) {
+            return new GenericRole(User::class);
+        }
+
         $id = $this->extractUserId($requestedName);
 
         if ($id === null) {
