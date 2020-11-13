@@ -9,18 +9,20 @@
     ],
     "homepage": "https://github.com/riddlestone/brokkr-users",
     "type": "library",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": "^7.3",
         "container-interop/container-interop": "^1.2",
+        "doctrine/doctrine-orm-module": "^3.0",
         "laminas/laminas-authentication": "^2.7",
         "laminas/laminas-component-installer": "^2.0 || ^1.0 || ^0.7",
         "laminas/laminas-mail": "^2.10",
         "laminas/laminas-mvc": "^3.1",
         "laminas/laminas-servicemanager": "^3.4",
-        "doctrine/doctrine-orm-module": "^3.0",
+        "ramsey/uuid": "^4.0",
         "riddlestone/brokkr-acl": "^0.2.0",
-        "riddlestone/brokkr-mail": "dev-master",
-        "ramsey/uuid": "^4.0"
+        "riddlestone/brokkr-mail": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -31,14 +33,15 @@
         "laminas/laminas-mvc-plugin-flashmessenger": "To provide feedback on successful login, logout, password reset, etc."
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.4",
-        "laminas/laminas-session": "^2.9",
-        "phpmd/phpmd": "^2.8",
-        "squizlabs/php_codesniffer": "^3.5",
         "laminas/laminas-mvc-plugin-flashmessenger": "^1.2",
-        "sensiolabs-de/deptrac-shim": "^0.8.0",
+        "laminas/laminas-router": "^3.3",
+        "laminas/laminas-session": "^2.9",
         "laminas/laminas-validator": "^2.13",
-        "laminas/laminas-router": "^3.3"
+        "phpmd/phpmd": "^2.8",
+        "phpmetrics/phpmetrics": "^2.7",
+        "phpunit/phpunit": "^9.4",
+        "sensiolabs-de/deptrac-shim": "^0.8.0",
+        "squizlabs/php_codesniffer": "^3.5"
     },
     "autoload-dev": {
         "psr-4": {
@@ -55,11 +58,28 @@
         "deptrac-image": "deptrac --formatter-graphviz=true --no-progress",
         "phpcs": "phpcs --standard=PSR12 src test",
         "phpmd": "phpmd src ansi phpmd.xml",
+        "phpmetrics": "phpmetrics src",
+        "phpmetrics-report": [
+            "phpmetrics --report-html=build/phpmetrics src",
+            "tar -czf build/phpmetrics.tar.gz -C build phpmetrics"
+        ],
+        "phpunit": "phpunit",
+        "phpunit-coverage": [
+            "phpunit --coverage-html=build/coverage",
+            "tar -czf build/coverage.tar.gz -C build coverage"
+        ],
         "test": [
-            "phpcs -q --standard=PSR12 src test",
-            "phpmd src ansi phpmd.xml",
-            "deptrac --no-progress",
-            "phpunit"
+            "@phpcs",
+            "@phpmd",
+            "@deptrac",
+            "@phpunit"
+        ],
+        "metrics": [
+            "@phpmetrics-report",
+            "@phpunit-coverage"
+        ],
+        "build-artifacts": [
+            "@metrics"
         ]
     },
     "license": "BSD-3-Clause",
