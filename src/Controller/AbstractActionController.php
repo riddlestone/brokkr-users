@@ -38,7 +38,7 @@ abstract class AbstractActionController extends MvcAbstractActionController
         $this->authService = $authService;
     }
 
-    public function forbiddenAction()
+    public function forbiddenAction(): ViewModel
     {
         $this->getResponse()->setStatusCode(403);
         $viewModel = new ViewModel(['content' => 'Forbidden']);

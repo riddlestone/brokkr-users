@@ -19,8 +19,9 @@ class Module
      * Register {@link onRender} with the application event manager
      *
      * @param MvcEvent $event
+     * @return void
      */
-    public function onBootstrap(MvcEvent $event)
+    public function onBootstrap(MvcEvent $event): void
     {
         $event->getApplication()->getEventManager()->attach('render', [$this, 'onRender']);
     }
@@ -29,6 +30,7 @@ class Module
      * Inject the current authenticated user into {@link Navigation} when rendering
      *
      * @param MvcEvent $event
+     * @return void
      */
     public function onRender(MvcEvent $event)
     {

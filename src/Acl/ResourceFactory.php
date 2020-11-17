@@ -3,9 +3,6 @@
 namespace Riddlestone\Brokkr\Users\Acl;
 
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Riddlestone\Brokkr\Acl\GenericResource;
 use Riddlestone\Brokkr\Users\Controller\AccountController;
@@ -19,11 +16,7 @@ class ResourceFactory implements AbstractFactoryInterface
     ];
 
     /**
-     * Can the factory create an instance for the service?
-     *
-     * @param ContainerInterface $container
-     * @param string $requestedName
-     * @return bool
+     * @inheritDoc
      */
     public function canCreate(ContainerInterface $container, $requestedName)
     {
@@ -38,16 +31,7 @@ class ResourceFactory implements AbstractFactoryInterface
     }
 
     /**
-     * Create an object
-     *
-     * @param ContainerInterface $container
-     * @param string $requestedName
-     * @param null|array $options
-     * @return object
-     * @throws ServiceNotFoundException if unable to resolve the service.
-     * @throws ServiceNotCreatedException if an exception is raised when
-     *     creating a service.
-     * @throws ContainerException if any other error occurs
+     * @inheritDoc
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {

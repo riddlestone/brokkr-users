@@ -116,7 +116,7 @@ class PasswordResetService
             $this->getEntityManager()->persist($passwordReset);
             $this->getEntityManager()->flush();
         } catch (ORMException | OptimisticLockException $e) {
-            throw new Exception('Could not save Password Reset information', null, $e);
+            throw new Exception('Could not save Password Reset information', 0, $e);
         }
 
         $mail = $this->getMessageFactory()->create(
@@ -137,7 +137,7 @@ class PasswordResetService
 
     /**
      * @param string $id
-     * @return PasswordReset|null
+     * @return PasswordReset
      * @throws Exception
      */
     public function getReset(string $id): PasswordReset
@@ -178,7 +178,7 @@ class PasswordResetService
             $this->getEntityManager()->remove($reset);
             $this->getEntityManager()->flush();
         } catch (ORMException | OptimisticLockException $e) {
-            throw new Exception('Could not process password reset, please try again later', null, $e);
+            throw new Exception('Could not process password reset, please try again later', 0, $e);
         }
 
         $mail = $this->getMessageFactory()->create(
