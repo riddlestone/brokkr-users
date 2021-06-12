@@ -51,6 +51,7 @@ abstract class AbstractActionController extends MvcAbstractActionController
      *
      * @param MvcEvent $event
      * @return mixed
+     * @psalm-suppress ParamNameMismatch
      */
     public function onDispatch(MvcEvent $event)
     {
