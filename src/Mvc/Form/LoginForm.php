@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Form;
+namespace Riddlestone\Brokkr\Users\Mvc\Form;
 
 use Laminas\Filter\StringTrim;
 use Laminas\Form\Element\Email;

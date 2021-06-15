@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Controller;
+namespace Riddlestone\Brokkr\Users\Mvc\Controller;
 
 use Interop\Container\ContainerInterface;
 use Laminas\Authentication\AuthenticationService;

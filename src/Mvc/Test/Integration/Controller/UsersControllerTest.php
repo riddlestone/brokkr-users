@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Test\Integration\Controller;
+namespace Riddlestone\Brokkr\Users\Mvc\Test\Integration\Controller;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
@@ -8,9 +8,9 @@ use Doctrine\ORM\ORMException;
 use Laminas\View\Model\ViewModel;
 use Riddlestone\Brokkr\Acl\Acl;
 use Riddlestone\Brokkr\Acl\GenericRule;
-use Riddlestone\Brokkr\Users\Controller\UsersController;
+use Riddlestone\Brokkr\Users\Mvc\Controller\UsersController;
 use Riddlestone\Brokkr\Users\Entity\User;
-use Riddlestone\Brokkr\Users\Test\Integration\AbstractApplicationTestCase;
+use Riddlestone\Brokkr\Users\Mvc\Test\Integration\AbstractApplicationTestCase;
 
 class UsersControllerTest extends AbstractApplicationTestCase
 {

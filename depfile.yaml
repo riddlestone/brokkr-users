@@ -6,18 +6,10 @@ layers:
     collectors:
       - type: className
         regex: Riddlestone\\Brokkr\\Users\\Acl\\.*
-  - name: Controllers
-    collectors:
-      - type: className
-        regex: Riddlestone\\Brokkr\\Users\\Controller
   - name: Entities
     collectors:
       - type: className
         regex: Riddlestone\\Brokkr\\Users\\Entity\\.*
-  - name: Forms
-    collectors:
-      - type: className
-        regex: Riddlestone\\Brokkr\\Users\\Form\\.*
   - name: Repositories
     collectors:
       - type: className
@@ -28,24 +20,51 @@ layers:
         regex: Riddlestone\\Brokkr\\Users\\Authentication\\.*
       - type: className
         regex: Riddlestone\\Brokkr\\Users\\Service\\.*
+  - name: Tests
+    collectors:
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Test\\.*
+  - name: MvcAcl
+    collectors:
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Mvc\\Acl\\.*
+  - name: MvcControllers
+    collectors:
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Mvc\\Controller\\.*
+  - name: MvcForms
+    collectors:
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Mvc\\Form\\.*
+  - name: MvcTests
+    collectors:
+      - type: className
+        regex: Riddlestone\\Brokkr\\Users\\Mvc\\Test\\.*
 ruleset:
   Acl:
-    - Controllers
     - Entities
     - Repositories
-  Controllers:
-    - Entities
-    - Forms
-    - Repositories
-    - Services
   Repositories:
     - Entities
   Services:
     - Entities
     - Repositories
   Tests:
-    - Controllers
     - Entities
-    - Forms
     - Repositories
     - Services
+  MvcAcl:
+    - Entities
+    - MvcControllers
+  MvcControllers:
+    - Entities
+    - Repositories
+    - Services
+    - MvcForms
+  MvcTests:
+    - Acl
+    - Entities
+    - Repositories
+    - Services
+    - MvcControllers
+    - MvcForms

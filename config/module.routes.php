@@ -12,7 +12,7 @@ return [
             'options' => [
                 'route' => '/account',
                 'defaults' => [
-                    'controller' => Controller\AccountController::class,
+                    'controller' => Mvc\Controller\AccountController::class,
                     'action' => 'index',
                 ],
             ],
@@ -22,7 +22,7 @@ return [
             'options' => [
                 'route' => '/request-password-reset',
                 'defaults' => [
-                    'controller' => Controller\AccountController::class,
+                    'controller' => Mvc\Controller\AccountController::class,
                     'action' => 'requestPasswordReset',
                 ],
             ],
@@ -32,7 +32,7 @@ return [
             'options' => [
                 'route' => '/reset-password/:id',
                 'defaults' => [
-                    'controller' => Controller\AccountController::class,
+                    'controller' => Mvc\Controller\AccountController::class,
                     'action' => 'resetPassword',
                 ],
             ],
@@ -42,7 +42,7 @@ return [
             'options' => [
                 'route' => '/login',
                 'defaults' => [
-                    'controller' => Controller\AccountController::class,
+                    'controller' => Mvc\Controller\AccountController::class,
                     'action' => 'login',
                 ],
             ],
@@ -52,7 +52,7 @@ return [
             'options' => [
                 'route' => '/logout',
                 'defaults' => [
-                    'controller' => Controller\AccountController::class,
+                    'controller' => Mvc\Controller\AccountController::class,
                     'action' => 'logout',
                 ],
             ],

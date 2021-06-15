@@ -1,9 +1,9 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Test\Unit\Form;
+namespace Riddlestone\Brokkr\Users\Mvc\Test\Unit\Form;
 
 use PHPUnit\Framework\TestCase;
-use Riddlestone\Brokkr\Users\Form\PasswordResetForm;
+use Riddlestone\Brokkr\Users\Mvc\Form\PasswordResetForm;
 
 class PasswordResetFormTest extends TestCase
 {

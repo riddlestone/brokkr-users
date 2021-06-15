@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Controller;
+namespace Riddlestone\Brokkr\Users\Mvc\Controller;
 
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Mvc\Controller\AbstractActionController as MvcAbstractActionController;

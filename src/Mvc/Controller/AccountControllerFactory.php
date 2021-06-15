@@ -1,12 +1,13 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Controller;
+namespace Riddlestone\Brokkr\Users\Mvc\Controller;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Riddlestone\Brokkr\Users\Repository\UserRepository;
+use Riddlestone\Brokkr\Users\Service\PasswordResetService;
 
-class UsersControllerFactory extends AbstractActionControllerFactory
+class AccountControllerFactory extends AbstractActionControllerFactory
 {
     /**
      * @inheritDoc
@@ -15,15 +16,17 @@ class UsersControllerFactory extends AbstractActionControllerFactory
     {
         $controller = parent::__invoke($container, $requestedName, $options);
 
-        if (!$controller instanceof UsersController) {
+        if (!$controller instanceof AccountController) {
             throw new ServiceNotCreatedException(sprintf(
                 '%s is not an instance of %s',
                 $requestedName,
-                UsersController::class
+                AccountController::class
             ));
         }
 
         $controller->setUserRepository($container->get(UserRepository::class));
+        $controller->setFormElementManager($container->get('FormElementManager'));
+        $controller->setPasswordResetService($container->get(PasswordResetService::class));
 
         return $controller;
     }

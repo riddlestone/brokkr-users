@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Test\Integration\Controller;
+namespace Riddlestone\Brokkr\Users\Mvc\Test\Integration\Controller;
 
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
@@ -13,14 +13,14 @@ use Laminas\Mail\Transport\TransportInterface;
 use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\View\Model\ViewModel;
 use Ramsey\Uuid\Uuid;
-use Riddlestone\Brokkr\Users\Controller\AccountController;
+use Riddlestone\Brokkr\Users\Mvc\Controller\AccountController;
 use Riddlestone\Brokkr\Users\Entity\PasswordReset;
 use Riddlestone\Brokkr\Users\Entity\User;
-use Riddlestone\Brokkr\Users\Form\LoginForm;
-use Riddlestone\Brokkr\Users\Form\PasswordResetForm;
-use Riddlestone\Brokkr\Users\Form\RequestPasswordResetForm;
+use Riddlestone\Brokkr\Users\Mvc\Form\LoginForm;
+use Riddlestone\Brokkr\Users\Mvc\Form\PasswordResetForm;
+use Riddlestone\Brokkr\Users\Mvc\Form\RequestPasswordResetForm;
 use Riddlestone\Brokkr\Users\Repository\PasswordResetRepository;
-use Riddlestone\Brokkr\Users\Test\Integration\AbstractApplicationTestCase;
+use Riddlestone\Brokkr\Users\Mvc\Test\Integration\AbstractApplicationTestCase;
 
 class AccountControllerTest extends AbstractApplicationTestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Test\Unit\Acl;
+namespace Riddlestone\Brokkr\Users\Mvc\Test\Unit\Acl;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;

@@ -1,12 +1,12 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Acl;
+namespace Riddlestone\Brokkr\Users\Mvc\Acl;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Riddlestone\Brokkr\Acl\GenericResource;
-use Riddlestone\Brokkr\Users\Controller\AccountController;
-use Riddlestone\Brokkr\Users\Controller\UsersController;
+use Riddlestone\Brokkr\Users\Mvc\Controller\AccountController;
+use Riddlestone\Brokkr\Users\Mvc\Controller\UsersController;
 
 class ResourceFactory implements AbstractFactoryInterface
 {

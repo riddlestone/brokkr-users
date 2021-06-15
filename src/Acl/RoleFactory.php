@@ -16,7 +16,7 @@ class RoleFactory implements AbstractFactoryInterface
      * @param string $requestedName
      * @return string|null
      */
-    protected function extractUserId($requestedName)
+    protected function extractUserId(string $requestedName): ?string
     {
         $params = explode(':', $requestedName);
         if (count($params) !== 2) {
@@ -31,7 +31,7 @@ class RoleFactory implements AbstractFactoryInterface
     /**
      * @inheritDoc
      */
-    public function canCreate(ContainerInterface $container, $requestedName)
+    public function canCreate(ContainerInterface $container, $requestedName): bool
     {
         return $requestedName === User::class
             || $this->extractUserId($requestedName) !== null;

@@ -1,17 +1,17 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Test\Unit\Form;
+namespace Riddlestone\Brokkr\Users\Mvc\Test\Unit\Form;
 
 use PHPUnit\Framework\TestCase;
-use Riddlestone\Brokkr\Users\Form\LoginForm;
+use Riddlestone\Brokkr\Users\Mvc\Form\RequestPasswordResetForm;
 
-class LoginFormTest extends TestCase
+class RequestPasswordResetFormTest extends TestCase
 {
     public function testInit()
     {
-        $form = new LoginForm();
+        $form = new RequestPasswordResetForm();
         $form->init();
-        $this->assertCount(3, $form->getElements());
+        $this->assertCount(2, $form->getElements());
     }
 
     public function isValidData()
@@ -24,28 +24,18 @@ class LoginFormTest extends TestCase
             [
                 'data' => [
                     'email_address' => 'someone@example.com',
-                    'password' => 'foobar',
                 ],
                 'valid' => true,
             ],
             [
                 'data' => [
                     'email_address' => '',
-                    'password' => 'foobar',
                 ],
                 'valid' => false,
             ],
             [
                 'data' => [
                     'email_address' => 'email-address-without-at',
-                    'password' => 'foobar',
-                ],
-                'valid' => false,
-            ],
-            [
-                'data' => [
-                    'email_address' => 'someone@example.com',
-                    'password' => '',
                 ],
                 'valid' => false,
             ],
@@ -59,7 +49,7 @@ class LoginFormTest extends TestCase
      */
     public function testIsValid(array $data, bool $valid)
     {
-        $form = new LoginForm();
+        $form = new RequestPasswordResetForm();
         $form->init();
         $form->setData($data);
         $this->assertEquals($valid, $form->isValid());

@@ -10,10 +10,6 @@ use Laminas\Authentication\Adapter\AdapterInterface;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Authentication\Result;
 use Laminas\Mvc\Application;
-use Laminas\Mvc\Controller\PluginManager;
-use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
-use Laminas\Router\Http\RouteMatch;
-use Laminas\Uri\Http;
 use PHPUnit\Framework\TestCase;
 use Riddlestone\Brokkr\Users\Entity\User;
 
@@ -24,6 +20,11 @@ abstract class AbstractApplicationTestCase extends TestCase
      */
     protected $app;
 
+    protected function getAppConfig(): array
+    {
+        return require __DIR__ . '/config/application.config.php';
+    }
+
     /**
      * @throws ToolsException
      * @throws ORMException
@@ -32,8 +33,7 @@ abstract class AbstractApplicationTestCase extends TestCase
     {
         parent::setUp();
 
-        $appConfig = require __DIR__ . '/config/application.config.php';
-        $this->app = Application::init($appConfig);
+        $this->app = Application::init($this->getAppConfig());
         /** @var EntityManager $em */
         $em = $this->app->getServiceManager()->get(EntityManager::class);
         $schemaTool = new SchemaTool($em);
@@ -60,34 +60,5 @@ abstract class AbstractApplicationTestCase extends TestCase
     protected function authenticate(User $user)
     {
         $this->getAuthenticationService()->authenticate($this->createAuthAdapter($user));
-    }
-
-    protected function dispatch(string $controllerName, string $actionName, array $params = [])
-    {
-        $this->app->getServiceManager()->get('Router')->setRequestUri(new Http('http://example.com'));
-        $this->app->getMvcEvent()->setRouteMatch(
-            new RouteMatch(array_merge(['controller' => $controllerName, 'action' => $actionName], $params))
-        );
-        $controller = $this->app->getServiceManager()
-            ->get('ControllerManager')
-            ->get($controllerName);
-        $controller->setEvent($this->app->getMvcEvent());
-        return $controller->dispatch(
-            $this->app->getMvcEvent()->getRequest(),
-            $this->app->getMvcEvent()->getResponse()
-        );
-    }
-
-    /**
-     * @param string $namespace
-     * @return array
-     */
-    protected function getFlashMessages(string $namespace): array
-    {
-        /** @var PluginManager $pluginManager */
-        $pluginManager = $this->app->getServiceManager()->get(PluginManager::class);
-        /** @var FlashMessenger $flashMessenger */
-        $flashMessenger = $pluginManager->get('flashMessenger');
-        return $flashMessenger->getCurrentMessages($namespace);
     }
 }

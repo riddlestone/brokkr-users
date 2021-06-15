@@ -1,14 +1,14 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Test\Unit\Controller;
+namespace Riddlestone\Brokkr\Users\Mvc\Test\Unit\Controller;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
 use Laminas\Authentication\AuthenticationService;
 use PHPUnit\Framework\TestCase;
 use Riddlestone\Brokkr\Acl\Acl;
-use Riddlestone\Brokkr\Users\Controller\UsersController;
-use Riddlestone\Brokkr\Users\Controller\UsersControllerFactory;
+use Riddlestone\Brokkr\Users\Mvc\Controller\UsersController;
+use Riddlestone\Brokkr\Users\Mvc\Controller\UsersControllerFactory;
 use Riddlestone\Brokkr\Users\Repository\UserRepository;
 
 class UsersControllerFactoryTest extends TestCase

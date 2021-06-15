@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Test\Unit\Controller;
+namespace Riddlestone\Brokkr\Users\Mvc\Test\Unit\Controller;
 
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Form\Element;
@@ -15,9 +15,9 @@ use Laminas\View\Model\ViewModel;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Riddlestone\Brokkr\Acl\Acl;
-use Riddlestone\Brokkr\Users\Controller\AccountController;
+use Riddlestone\Brokkr\Users\Mvc\Controller\AccountController;
 use Riddlestone\Brokkr\Users\Entity\User;
-use Riddlestone\Brokkr\Users\Form\LoginForm;
+use Riddlestone\Brokkr\Users\Mvc\Form\LoginForm;
 use Riddlestone\Brokkr\Users\Repository\UserRepository;
 use Riddlestone\Brokkr\Users\Service\PasswordResetService;
 

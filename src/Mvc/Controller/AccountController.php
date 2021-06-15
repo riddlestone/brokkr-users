@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Controller;
+namespace Riddlestone\Brokkr\Users\Mvc\Controller;
 
 use Exception;
 use Laminas\Form\ElementInterface;
@@ -9,9 +9,9 @@ use Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\View\Model\ViewModel;
 use Riddlestone\Brokkr\Users\Authentication\AuthenticationAdapter;
-use Riddlestone\Brokkr\Users\Form\LoginForm;
-use Riddlestone\Brokkr\Users\Form\PasswordResetForm;
-use Riddlestone\Brokkr\Users\Form\RequestPasswordResetForm;
+use Riddlestone\Brokkr\Users\Mvc\Form\LoginForm;
+use Riddlestone\Brokkr\Users\Mvc\Form\PasswordResetForm;
+use Riddlestone\Brokkr\Users\Mvc\Form\RequestPasswordResetForm;
 use Riddlestone\Brokkr\Users\Repository\UserRepository;
 use Riddlestone\Brokkr\Users\Service\PasswordResetService;
 

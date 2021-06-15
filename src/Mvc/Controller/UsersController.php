@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Controller;
+namespace Riddlestone\Brokkr\Users\Mvc\Controller;
 
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Laminas\View\Model\ViewModel;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Acl;
+namespace Riddlestone\Brokkr\Users\Mvc\Acl;
 
 use Laminas\Permissions\Acl\Acl;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
@@ -8,7 +8,7 @@ use Laminas\Permissions\Acl\Role\RoleInterface;
 use Riddlestone\Brokkr\Acl\GenericRule;
 use Riddlestone\Brokkr\Acl\PluginManager\RuleProviderInterface;
 use Riddlestone\Brokkr\Acl\RuleInterface;
-use Riddlestone\Brokkr\Users\Controller\AccountController;
+use Riddlestone\Brokkr\Users\Mvc\Controller\AccountController;
 use Riddlestone\Brokkr\Users\Entity\User;
 
 class RuleProvider implements RuleProviderInterface

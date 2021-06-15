@@ -1,6 +1,6 @@
 <?php
 
-namespace Riddlestone\Brokkr\Users\Test\Unit\Controller;
+namespace Riddlestone\Brokkr\Users\Mvc\Test\Unit\Controller;
 
 use Interop\Container\ContainerInterface;
 use Interop\Container\Exception\ContainerException;
@@ -8,8 +8,8 @@ use Laminas\Authentication\AuthenticationService;
 use Laminas\ServiceManager\AbstractPluginManager;
 use PHPUnit\Framework\TestCase;
 use Riddlestone\Brokkr\Acl\Acl;
-use Riddlestone\Brokkr\Users\Controller\AccountController;
-use Riddlestone\Brokkr\Users\Controller\AccountControllerFactory;
+use Riddlestone\Brokkr\Users\Mvc\Controller\AccountController;
+use Riddlestone\Brokkr\Users\Mvc\Controller\AccountControllerFactory;
 use Riddlestone\Brokkr\Users\Repository\UserRepository;
 use Riddlestone\Brokkr\Users\Service\PasswordResetService;
 
