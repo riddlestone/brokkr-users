@@ -29,9 +29,6 @@
       "Riddlestone\\Brokkr\\Users\\": "src/"
     }
   },
-  "suggest": {
-    "laminas/laminas-mvc-plugin-flashmessenger": "To provide feedback on successful login, logout, password reset, etc."
-  },
   "require-dev": {
     "ext-pdo_sqlite": "*",
     "doctrine/dbal": "^2.13",
