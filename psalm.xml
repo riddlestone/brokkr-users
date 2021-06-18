@@ -8,7 +8,6 @@
     <projectFiles>
         <directory name="src" />
         <ignoreFiles>
-            <directory name="src/Mvc/Test" />
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>

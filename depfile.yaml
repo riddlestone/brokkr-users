@@ -24,22 +24,6 @@ layers:
     collectors:
       - type: className
         regex: Riddlestone\\Brokkr\\Users\\Test\\.*
-  - name: MvcAcl
-    collectors:
-      - type: className
-        regex: Riddlestone\\Brokkr\\Users\\Mvc\\Acl\\.*
-  - name: MvcControllers
-    collectors:
-      - type: className
-        regex: Riddlestone\\Brokkr\\Users\\Mvc\\Controller\\.*
-  - name: MvcForms
-    collectors:
-      - type: className
-        regex: Riddlestone\\Brokkr\\Users\\Mvc\\Form\\.*
-  - name: MvcTests
-    collectors:
-      - type: className
-        regex: Riddlestone\\Brokkr\\Users\\Mvc\\Test\\.*
 ruleset:
   Acl:
     - Entities
@@ -53,18 +37,3 @@ ruleset:
     - Entities
     - Repositories
     - Services
-  MvcAcl:
-    - Entities
-    - MvcControllers
-  MvcControllers:
-    - Entities
-    - Repositories
-    - Services
-    - MvcForms
-  MvcTests:
-    - Acl
-    - Entities
-    - Repositories
-    - Services
-    - MvcControllers
-    - MvcForms

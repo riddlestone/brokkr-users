@@ -69,7 +69,7 @@
     ],
     "phpunit": "phpunit",
     "phpunit-coverage": [
-      "phpunit --coverage-html=build/coverage",
+      "XDEBUG_MODE=coverage phpunit --coverage-html=build/coverage",
       "tar -czf build/coverage.tar.gz -C build coverage"
     ],
     "psalm": "psalm",
