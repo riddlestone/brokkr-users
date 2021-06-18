@@ -54,19 +54,13 @@
   },
   "scripts": {
     "deptrac": "deptrac --no-progress",
-    "deptrac-image": "deptrac --formatter-graphviz=true --no-progress",
+    "deptrac-image": "deptrac --formatter=graphviz --graphviz-dump-image=build/deptrac.png --no-progress",
     "phpcs": "phpcs --standard=PSR12 src test",
     "phpmd": "phpmd src ansi phpmd.xml",
     "phpmetrics": "phpmetrics src",
-    "phpmetrics-report": [
-      "phpmetrics --report-html=build/phpmetrics src",
-      "tar -czf build/phpmetrics.tar.gz -C build phpmetrics"
-    ],
+    "phpmetrics-report": "phpmetrics --junit=build/junit.xml --report-html=build/phpmetrics src",
     "phpunit": "phpunit",
-    "phpunit-coverage": [
-      "XDEBUG_MODE=coverage phpunit --coverage-html=build/coverage",
-      "tar -czf build/coverage.tar.gz -C build coverage"
-    ],
+    "phpunit-coverage": "XDEBUG_MODE=coverage phpunit --coverage-html=build/coverage --log-junit=build/junit.xml",
     "psalm": "psalm",
     "test": [
       "@phpcs",
@@ -76,11 +70,15 @@
       "@psalm"
     ],
     "metrics": [
-      "@phpmetrics-report",
-      "@phpunit-coverage"
+      "@phpunit-coverage",
+      "@phpmetrics-report"
     ],
     "build-artifacts": [
-      "@metrics"
+      "if [ -d build ]; then rm -rf build; fi",
+      "mkdir build",
+      "@metrics",
+      "@deptrac-image",
+      "tar -czf build.tar.gz -C build `ls build`"
     ]
   },
   "license": "BSD-3-Clause",
