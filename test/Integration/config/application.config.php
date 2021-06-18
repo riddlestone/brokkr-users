@@ -5,7 +5,6 @@ return [
         'Laminas\Session',
         'Laminas\Form',
         'Laminas\Router',
-        'Laminas\Mvc\Plugin\FlashMessenger',
         'DoctrineModule',
         'DoctrineORMModule',
         'Riddlestone\Brokkr\Acl',
