@@ -13,5 +13,4 @@ use Riddlestone\Brokkr\Users\Entity\PasswordReset;
  */
 class PasswordResetRepository extends EntityRepository
 {
-
 }
