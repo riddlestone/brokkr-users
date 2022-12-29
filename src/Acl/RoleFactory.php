@@ -33,8 +33,28 @@ class RoleFactory implements AbstractFactoryInterface
      */
     public function canCreate(ContainerInterface $container, $requestedName): bool
     {
-        return $requestedName === User::class
-            || $this->extractUserId($requestedName) !== null;
+        if ($requestedName === User::class) {
+            // The base User role, which all other users have as a parent
+            return true;
+        }
+
+        $userId = $this->extractUserId($requestedName);
+
+        if ($userId === null) {
+            // No ID given for the user
+            return false;
+        }
+
+        /** @var UserRepository $userRepo */
+        $userRepo = $container->get(UserRepository::class);
+
+        if ($userRepo->count(['id' => $userId])) {
+            // Found the user
+            return true;
+        }
+
+        // Didn't find the user
+        return false;
     }
 
     /**
