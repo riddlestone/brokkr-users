@@ -87,5 +87,10 @@
       "name": "Andrew Riddlestone",
       "email": "andrew.riddlestone@gmail.com"
     }
-  ]
+  ],
+  "config": {
+    "allow-plugins": {
+      "laminas/laminas-component-installer": true
+    }
+  }
 }

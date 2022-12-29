@@ -23,8 +23,14 @@ class RoleFactoryTest extends AbstractApplicationTestCase
 
         /** @var Acl $acl */
         $acl = $this->app->getServiceManager()->get(Acl::class);
-        $user2 = $acl->getRole($user->getRoleId());
+        $this->assertTrue($acl->hasRole($user->getRoleId()));
 
-        $this->assertEquals($user, $user2);
+        $this->assertSame($user, $acl->getRole($user->getRoleId()));
+    }
+
+    public function testHasMissingUser()
+    {
+        $acl = $this->app->getServiceManager()->get(Acl::class);
+        $this->assertFalse($acl->hasRole(User::class . ':MISSING_USER'));
     }
 }
